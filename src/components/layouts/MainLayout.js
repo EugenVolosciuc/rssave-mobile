@@ -13,14 +13,12 @@ const MainLayout = ({ headerOptions, children }) => {
         paddingVertical: layout.verticalPadding,
         paddingHorizontal: layout.horizontalPadding
     }
-    
+
     return (
-        <SafeAreaView>
-            <View style={styles.container}>
-                <ScreenHeader {...headerOptions} />
-                <View style={innerContainerStyles}>
-                    {children}
-                </View>
+        <SafeAreaView style={styles.container}>
+            <ScreenHeader {...headerOptions} />
+            <View style={innerContainerStyles}>
+                {children}
             </View>
         </SafeAreaView>
     )
@@ -30,10 +28,11 @@ export default MainLayout
 
 const styles = StyleSheet.create({
     container: {
-        height: '100%',
+        flex: 1,
         marginTop: Platform.OS === 'android' ? Constants.statusBarHeight : 0
     },
     innerContainer: {
-        width: '100%'
+        width: '100%',
+        flex: 1
     }
 })

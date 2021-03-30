@@ -11,7 +11,9 @@ import {
     BundleFeeds,
     AllFeeds,
     Settings,
-    About
+    About,
+    AddBundle,
+    AddFeed
 } from '../../screens'
 
 const Drawer = createDrawerNavigator()
@@ -21,30 +23,39 @@ const Navigator = () => {
 
     return (
         <NavigationContainer theme={theme}>
-            <StatusBar 
-                backgroundColor={theme.colors.primary} 
-                style={Platform.OS === 'android' ? "light" : "auto"} 
+            <StatusBar
+                backgroundColor={theme.colors.primary}
+                style={Platform.OS === 'android' ? "light" : "auto"}
             />
+            {/* NOTE: If screen shouldn't appear in drawer, add it to the end of the list */}
             <Drawer.Navigator initialRouteName="Bundles" drawerContent={props => <CustomDrawer {...props} />}>
-                <Drawer.Screen 
+                <Drawer.Screen
                     name="Bundles"
                     component={Bundles}
                 />
-                <Drawer.Screen 
+                <Drawer.Screen
                     name="All feeds"
                     component={AllFeeds}
                 />
-                <Drawer.Screen 
-                    name="Bundle Feeds"
-                    component={BundleFeeds}
-                />
-                <Drawer.Screen 
+                <Drawer.Screen
                     name="Settings"
                     component={Settings}
                 />
-                <Drawer.Screen 
+                <Drawer.Screen
                     name="About"
                     component={About}
+                />
+                <Drawer.Screen
+                    name="Bundle Feeds"
+                    component={BundleFeeds}
+                />
+                <Drawer.Screen
+                    name="Add Feed"
+                    component={AddFeed}
+                />
+                <Drawer.Screen
+                    name="Add Bundle"
+                    component={AddBundle}
                 />
             </Drawer.Navigator>
         </NavigationContainer>

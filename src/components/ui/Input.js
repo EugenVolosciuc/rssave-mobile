@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, TouchableWithoutFeedback, TextInput, Keyboard } from 'react-native'
+import { View, TouchableWithoutFeedback, TextInput, Keyboard, Platform } from 'react-native'
 import { useTheme } from '@react-navigation/native'
 import Typography from './Typography'
 
@@ -18,7 +18,7 @@ const Input = ({
         letterSpacing: 0.9,
         borderWidth: 2,
         borderRadius: 10,
-        padding: 8,
+        padding: Platform.OS === 'ios' ? 12 : 8,
         borderColor: colors.primary,
         ...(disabled && {
             backgroundColor: colors.lightGray,

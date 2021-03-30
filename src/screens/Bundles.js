@@ -6,7 +6,9 @@ import { Button, Input } from '../components/ui'
 
 const Bundles = ({ navigation }) => {
     const [value, setValue] = useState('')
-    const handleAdd = () => console.log("Add bundle")
+
+    const handleAdd = () => navigation.navigate('Add Bundle')
+
     const handleSearch = () => console.log("Open search")
 
     const headerOptions = {

@@ -81,11 +81,13 @@ const styles = StyleSheet.create({
         paddingVertical: 5
     },
     backIcon: {
-        paddingRight: 10
+        paddingRight: 10,
+        paddingVertical: 5
     },
     searchIcon: {
         paddingTop: 3,
-        marginLeft: 10
+        paddingBottom: 5,
+        paddingLeft: 10
     },
     leftSideContainer: {
         flexDirection: 'row',
