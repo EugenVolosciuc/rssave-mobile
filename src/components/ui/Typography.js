@@ -31,7 +31,7 @@ export default Typography
 const styles = StyleSheet.create({
     text: {
         fontFamily: 'Heebo_400',
-        letterSpacing: .9
+        letterSpacing: .5
     },
     sm: {
         fontSize: 14

@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 
 import MainLayout from '../components/layouts/MainLayout'
-import { Button } from '../components/ui'
+import { Button, Input } from '../components/ui'
 
 const Bundles = ({ navigation }) => {
+    const [value, setValue] = useState('')
     const handleAdd = () => console.log("Add bundle")
     const handleSearch = () => console.log("Open search")
 
@@ -22,7 +23,10 @@ const Bundles = ({ navigation }) => {
                 <Button onPress={() => navigation.navigate('Bundle Feeds')}>To Bundle Feeds</Button>
             </View>
             <View style={{ alignItems: 'flex-start' }}>
-                <Button onPress={() => console.log("Pressed")}>To Bundle Feeds</Button>
+                <Button onPress={() => console.log("Pressed")} type="primary">To Bundle Feeds</Button>
+            </View>
+            <View style={{ alignItems: 'flex-start' }}>
+                <Input label={"test"} value={value} onChange={setValue} placeholder="Placeholder" />
             </View>
         </MainLayout>
     )

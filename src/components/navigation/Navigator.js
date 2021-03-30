@@ -25,7 +25,7 @@ const Navigator = () => {
                 backgroundColor={theme.colors.primary} 
                 style={Platform.OS === 'android' ? "light" : "auto"} 
             />
-            <Drawer.Navigator drawerContent={props => <CustomDrawer {...props} />}>
+            <Drawer.Navigator initialRouteName="Bundles" drawerContent={props => <CustomDrawer {...props} />}>
                 <Drawer.Screen 
                     name="Bundles"
                     component={Bundles}

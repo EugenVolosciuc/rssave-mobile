@@ -6,9 +6,10 @@ export const defaultTheme = {
         ...DefaultTheme.colors,
         primary: '#607A9F',
         secondary: '#80C6BD',
-        white: '#FFF',
+        white: '#F8F7FF',
         lightGray: '#CCC',
-        darkGray: '#666'
+        darkGray: '#666',
+        danger: '#FF5964'
     },
     layout: {
         horizontalPadding: 10,

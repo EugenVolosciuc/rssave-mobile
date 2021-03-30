@@ -1,9 +1,9 @@
 import React from 'react'
-import { View, Text, Pressable, StyleSheet, Platform, TouchableNativeFeedback, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { useTheme } from '@react-navigation/native'
+import Typography from './Typography'
 
-
-const Button = ({ children, disabled, onPress, type = "primary" }) => {
+const Button = ({ children, disabled, onPress, type = "secondary" }) => {
     const { colors } = useTheme()
 
     const buttonStyles = {
@@ -25,32 +25,20 @@ const Button = ({ children, disabled, onPress, type = "primary" }) => {
         })
     }
 
-    const textStyles = {
-        ...styles.text,
-        ...(type === 'primary' && {
-            color: colors.white,
-        }),
-        ...(type === 'secondary' && {
-            color: colors.primary,
-        }),
-        ...(disabled && {
-            color: colors.darkGray
-        })
-    }
-
-    const Touchable = Platform.OS === 'android' ? TouchableNativeFeedback : TouchableOpacity
+    const textColor = disabled ? colors.darkGray : type === 'primary' ? colors.white : colors.primary
 
     return (
         <View style={{ borderRadius: 25, overflow: 'hidden' }}>
-            <Touchable
+            <TouchableOpacity
+                activeOpacity={0.6}
                 disabled={disabled}
                 onPress={onPress}
                 touchSoundDisabled={true}
             >
                 <View style={buttonStyles}>
-                    <Text style={textStyles}>{children}</Text>
+                    <Typography style={styles.text} color={textColor}>{children}</Typography>
                 </View>
-            </Touchable>
+            </TouchableOpacity>
         </View>
     )
 }
