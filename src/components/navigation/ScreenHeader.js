@@ -25,23 +25,23 @@ const ScreenHeader = ({
     return (
         <View style={containerStyles}>
             <View style={styles.leftSideContainer}>
-            {showHamburger 
-                ? <Ionicons
-                    name="menu-outline"
-                    color={colors.white}
-                    size={28}
-                    onPress={navigation.openDrawer}
-                    style={styles.hamburgerIcon}
-                />
-                : <Ionicons 
-                    name="arrow-back"
-                    color={colors.white}
-                    size={28}
-                    onPress={() => navigation.goBack()}
-                    style={styles.backIcon}
-                />
-            }
-            <Typography style={{ paddingTop: 2 }} size="lg" color={colors.white}>{title}</Typography>
+                {showHamburger 
+                    ? <Ionicons
+                        name="menu-outline"
+                        color={colors.white}
+                        size={28}
+                        onPress={navigation.openDrawer}
+                        style={styles.hamburgerIcon}
+                    />
+                    : <Ionicons 
+                        name="arrow-back"
+                        color={colors.white}
+                        size={28}
+                        onPress={() => navigation.goBack()}
+                        style={styles.backIcon}
+                    />
+                }
+                <Typography size="lg" color={colors.white}>{title}</Typography>
             </View>
             <View style={styles.rightSideContainer}>
                 {handleAdd &&
@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     hamburgerIcon: {
-        paddingRight: 10
+        paddingRight: 10,
+        paddingVertical: 5
     },
     backIcon: {
         paddingRight: 10
@@ -87,7 +88,8 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     leftSideContainer: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     rightSideContainer: {
         flexDirection: 'row',

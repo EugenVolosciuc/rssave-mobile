@@ -5,6 +5,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import { StatusBar } from 'expo-status-bar'
 
 import { defaultTheme } from '../../../config/theme'
+import CustomDrawer from './CustomDrawer'
 import {
     Bundles,
     BundleFeeds,
@@ -24,7 +25,7 @@ const Navigator = () => {
                 backgroundColor={theme.colors.primary} 
                 style={Platform.OS === 'android' ? "light" : "auto"} 
             />
-            <Drawer.Navigator>
+            <Drawer.Navigator drawerContent={props => <CustomDrawer {...props} />}>
                 <Drawer.Screen 
                     name="Bundles"
                     component={Bundles}
@@ -33,7 +34,6 @@ const Navigator = () => {
                     name="All feeds"
                     component={AllFeeds}
                 />
-                {/* TODO: Bundle feeds should be hidden from the drawer, I think it's possible with a custom drawer */}
                 <Drawer.Screen 
                     name="Bundle Feeds"
                     component={BundleFeeds}
