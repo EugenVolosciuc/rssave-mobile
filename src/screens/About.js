@@ -1,11 +1,18 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-const About = ({ navigation }) => {
+import MainLayout from '../components/layouts/MainLayout'
+
+const About = () => {
+    const headerOptions = {
+        title: 'About',
+        showHamburger: true,
+    }
+
     return (
-        <View>
-            <Text></Text>
-        </View>
+        <MainLayout headerOptions={headerOptions}>
+            <Text>Work in progress</Text>
+        </MainLayout>
     )
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
+import { Platform } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { StatusBar } from 'expo-status-bar'
 
@@ -13,7 +13,6 @@ import {
     About
 } from '../../screens'
 
-const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
 
 const Navigator = () => {
@@ -21,19 +20,33 @@ const Navigator = () => {
 
     return (
         <NavigationContainer theme={theme}>
-            <StatusBar backgroundColor={theme.colors.primary} style="light" />
+            <StatusBar 
+                backgroundColor={theme.colors.primary} 
+                style={Platform.OS === 'android' ? "light" : "auto"} 
+            />
             <Drawer.Navigator>
                 <Drawer.Screen 
                     name="Bundles"
                     component={Bundles}
                 />
-            </Drawer.Navigator>
-            {/* <Stack.Navigator initialRouteName="Bundles">
-                <Stack.Screen 
-                    name="Bundles"
-                    component={Bundles}
+                <Drawer.Screen 
+                    name="All feeds"
+                    component={AllFeeds}
                 />
-            </Stack.Navigator> */}
+                {/* TODO: Bundle feeds should be hidden from the drawer, I think it's possible with a custom drawer */}
+                <Drawer.Screen 
+                    name="Bundle Feeds"
+                    component={BundleFeeds}
+                />
+                <Drawer.Screen 
+                    name="Settings"
+                    component={Settings}
+                />
+                <Drawer.Screen 
+                    name="About"
+                    component={About}
+                />
+            </Drawer.Navigator>
         </NavigationContainer>
     )
 }

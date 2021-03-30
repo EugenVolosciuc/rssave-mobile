@@ -4,7 +4,7 @@ import { useTheme } from '@react-navigation/native'
 
 const acceptedSizes = ['sm', 'md', 'lg', 'xl']
 
-const Typography = ({ children, size = "md", color, bold }) => {
+const Typography = ({ children, color, bold, style = {}, size = "md" }) => {
     if (!acceptedSizes.includes(size)) throw new Error('Provide a valid size for the Typography component')
 
     const { colors } = useTheme()
@@ -12,6 +12,7 @@ const Typography = ({ children, size = "md", color, bold }) => {
     if (!color) color = colors.text
 
     const textStyles = {
+        ...style,
         ...styles.text,
         ...styles[size],
         ...(bold && styles.bold),
