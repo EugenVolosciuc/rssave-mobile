@@ -3,9 +3,11 @@ import { View, Text } from 'react-native'
 
 import MainLayout from '../components/layouts/MainLayout'
 import { Button, Input } from '../components/ui'
+import { useDataService } from '../utils/DataService'
 
 const Bundles = ({ navigation }) => {
     const [value, setValue] = useState('')
+    const DataService = useDataService()
 
     const handleAdd = () => navigation.navigate('Add Bundle')
 

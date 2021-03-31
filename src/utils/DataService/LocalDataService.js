@@ -1,13 +1,23 @@
+// NOTE: returning promises for all the methods to have a consistent flow for the different data service types (local/graphcms)
 class LocalDataService {
+    constructor(localData, setLocalData) {
+        this.localData = localData
+        this.setLocalData = setLocalData
+    }
+
     // Bundle funcs
     async getBundles() {
-        console.log("RETURNING BUNDLES!")
-        return null
+        return this.localData.bundles
     }
 
     async addBundle(bundleData) {
-        console.log("bundleData", bundleData)
-        return
+        this.setLocalData({
+            ...this.localData,
+            bundles: [
+                ...this.localData.bundles,
+                bundleData
+            ]
+        })
     }
 
     async modifyBundle(bundleData) {
