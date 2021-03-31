@@ -5,7 +5,7 @@ import { useTheme } from '@react-navigation/native'
 
 import ScreenHeader from '../navigation/ScreenHeader'
 
-const MainLayout = ({ headerOptions, children }) => {
+const MainLayout = ({ headerOptions, children, whiteBg }) => {
     const { colors, layout } = useTheme()
 
     const innerContainerStyles = {
@@ -15,7 +15,7 @@ const MainLayout = ({ headerOptions, children }) => {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={{...styles.container, backgroundColor: whiteBg ? colors.white : colors.lightGray }}>
             <ScreenHeader {...headerOptions} />
             <View style={innerContainerStyles}>
                 {children}
@@ -29,7 +29,7 @@ export default MainLayout
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Platform.OS === 'android' ? Constants.statusBarHeight : 0
+        marginTop: Platform.OS === 'android' ? Constants.statusBarHeight : 0,
     },
     innerContainer: {
         width: '100%',

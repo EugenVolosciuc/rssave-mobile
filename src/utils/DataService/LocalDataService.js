@@ -7,7 +7,9 @@ class LocalDataService {
     }
 
     // Bundle funcs
+    // TODO: add sorting and search functionality
     async getBundles() {
+        console.log("this.localData", this.localData)
         return this.localData.bundles
     }
 

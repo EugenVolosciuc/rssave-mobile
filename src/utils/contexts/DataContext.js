@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, createContext } from 'react'
+import React, { useState, useEffect, createContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import isEqual from 'lodash/isEqual'
 
@@ -10,10 +10,9 @@ export const emptyDataStructure = {
     feeds: []
 }
 
-export const dataContext = createContext(emptyDataStructure)
+export const dataContext = createContext({ data: emptyDataStructure, setData: () => null })
 
-export default function DataProvider({ children }) {
-    const mounted = useRef(false)
+export default function DataProvider({ children, dataLoaded, setDataLoaded }) {
     const [data, setData] = useState(emptyDataStructure)
 
     // Load data when app opens - if any, otherwise set empty data
@@ -33,12 +32,12 @@ export default function DataProvider({ children }) {
             }
         })()
 
-        mounted.current = true
+        setDataLoaded(true)
     }, [])
 
     // When the data state changes, update the asyncStorage for consistency
     useEffect(() => {
-        if (mounted.current && isEqual(data, emptyDataStructure)) { // data wipe listener
+        if (dataLoaded && isEqual(data, emptyDataStructure)) { // data wipe listener
             (async () => {
                 try {
                     await AsyncStorage.removeItem(ASYNC_STORAGE_APP_NAME)
@@ -46,7 +45,7 @@ export default function DataProvider({ children }) {
                     console.log("Error removing data", error)
                 }
             })()
-        } else if (mounted.current) { // data update listener
+        } else if (dataLoaded) { // data update listener
             (async () => {
                 try {
                     await AsyncStorage.setItem(
@@ -58,7 +57,7 @@ export default function DataProvider({ children }) {
                 }
             })()
         }
-    }, [mounted.current, data])
+    }, [dataLoaded, data])
 
     return (
         <dataContext.Provider value={{ data, setData }}>

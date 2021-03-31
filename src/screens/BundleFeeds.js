@@ -3,9 +3,10 @@ import { View, Text } from 'react-native'
 
 import MainLayout from '../components/layouts/MainLayout'
 
-const BundleFeeds = ({ navigation }) => {
+const BundleFeeds = ({ navigation, route }) => {
+    const { bundle } = route.params
     const headerOptions = {
-        title: 'Bundle Feeds',
+        title: bundle.title,
         showHamburger: false,
     }
 

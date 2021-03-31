@@ -6,15 +6,28 @@ import Navigator from './src/components/navigation/Navigator'
 import useFonts from './src/utils/hooks/useFonts'
 import { service } from './src/utils/DataService'
 import DataProvider from './src/utils/contexts/DataContext'
+import { dataContext } from './src/utils/contexts/DataContext'
 
 export default function App() {
+	// NOTE: If local service, app should be loading until data is "fetched".
+	// Moving dataLoaded bool in App instead of DataContext because here is where we add the AppLoading component 
+	// and we can't access the data context in app, as it's not yet provided
+
+	const [initialDataLoaded, setInitialDataLoaded] = useState(false)
 	const { fontsLoaded } = useFonts()
 
-	if (!fontsLoaded) return <AppLoading />
+	// useEffect(() => {
+	// 	setInitialDataLoaded(initDataLoaded)
+	// }, [initDataLoaded])
+
+	// console.log("initDataLoaded", initDataLoaded)
+
+	console.log("initialDataLoaded", initialDataLoaded)
+	if (!fontsLoaded && (service === 'local' && !initialDataLoaded)) return <AppLoading />
 
 	if (service === 'local') {
 		return (
-			<DataProvider>
+			<DataProvider dataLoaded={initialDataLoaded} setDataLoaded={setInitialDataLoaded}>
 				<Navigator />
 			</DataProvider>
 		)

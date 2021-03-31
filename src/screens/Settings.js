@@ -1,11 +1,12 @@
 import React from 'react'
-import { View, SectionList, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import { View, SectionList, StyleSheet, Alert } from 'react-native'
 import { useTheme } from '@react-navigation/native'
 import { useNavigation } from '@react-navigation/native'
 
 import MainLayout from '../components/layouts/MainLayout'
 import { Typography } from '../components/ui'
 import { useDataService } from '../utils/DataService'
+import SettingItem from '../components/list-items/SettingItem'
 
 const SettingHeader = ({title}) => {
     const { colors } = useTheme()
@@ -16,26 +17,6 @@ const SettingHeader = ({title}) => {
         size="sm">
         {title}
     </Typography>
-}
-
-const SettingItem = ({ item }) => {
-    const { colors } = useTheme()
-
-    return (
-        <TouchableOpacity
-            activeOpacity={0.6}
-            onPress={item.onPress}
-        >
-            <View
-                style={{
-                    ...styles.settingItem,
-                    borderBottomColor: colors.lightGray
-                }}
-            >
-                <Typography>{item.title}</Typography>
-            </View>
-        </TouchableOpacity>
-    )
 }
 
 const Settings = () => {
@@ -75,16 +56,13 @@ const Settings = () => {
                 {
                     title: 'Remove app data',
                     onPress: createDataRemovalAlert // show confirmation popup
-                },
-                {
-                    title: 'Test'
                 }
             ]
         }
     ]
 
     return (
-        <MainLayout headerOptions={headerOptions}>
+        <MainLayout headerOptions={headerOptions} whiteBg>
             <SectionList 
                 sections={settingsList}
                 keyExtractor={(item, index) => item.title + '-' + index}
@@ -100,10 +78,5 @@ export default Settings
 const styles = StyleSheet.create({
     settingHeader: {
         textTransform: 'uppercase'
-    },
-    settingItem: {
-        borderWidth: 2, 
-        borderColor: 'transparent',
-        paddingVertical: 8
     }
 })

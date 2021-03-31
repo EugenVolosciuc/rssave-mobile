@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 import LocalDataService from './LocalDataService'
 import GraphCMSDataService from './GraphCMSDataService'
@@ -7,21 +7,24 @@ import { dataContext } from '../contexts/DataContext'
 // local (wip) | graphcms (not functional atm)
 export const service = 'local'
 
-export function useDataService() {
-    const { data, setData } = useContext(dataContext)
-
-    let DataService
-
+const getDataService = (data, setData) => {
     switch (service) {
         case 'local':
-            DataService = new LocalDataService(data, setData)
-            break
+            return new LocalDataService(data, setData)
         case 'graphcms':
-            DataService = new GraphCMSDataService()
-            break
+            return new GraphCMSDataService()
         default:
             throw new Error('Incorrect data service provided')
     }
+}
+
+export function useDataService() {
+    const { data, setData } = useContext(dataContext)
+    const [DataService, setDataService] = useState(getDataService(data, setData))
+
+    useEffect(() => {
+        setDataService(getDataService(data, setData))
+    }, [data])
 
     return DataService
 }
