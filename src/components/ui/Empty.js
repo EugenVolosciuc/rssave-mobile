@@ -4,12 +4,15 @@ import { useTheme } from '@react-navigation/native'
 
 import Typography from './Typography'
 
-const Empty = ({ text = "No data", containerStyle = {} }) => {
+const Empty = ({ content = "No data", containerStyle = {} }) => {
     const { colors } = useTheme()
 
     return (
         <View style={{...styles.container, ...containerStyle }}>
-            <Typography style={styles.text} color={colors.darkGray}>{text}</Typography>
+            {typeof content === 'string' 
+                ? <Typography style={styles.text} color={colors.darkGray}>{content}</Typography>
+                : {content}
+            }
         </View>
     )
 }

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, FlatList } from 'react-native'
+import { FlatList } from 'react-native'
 
 import MainLayout from '../components/layouts/MainLayout'
-import { Button, Empty } from '../components/ui'
+import { Empty } from '../components/ui'
 import { useDataService } from '../utils/DataService'
 import BundleItem from '../components/list-items/BundleItem'
 
@@ -32,33 +32,26 @@ const Bundles = ({ navigation }) => {
         }
     }, [DataService])
 
-    console.log("bundles", bundles)
-
     return (
         <MainLayout headerOptions={headerOptions}>
-            {/* <Text>This page appears</Text>
-            <View style={{ alignItems: 'flex-start' }}>
-                <Button onPress={() => navigation.navigate('Bundle Feeds')}>To Bundle Feeds</Button>
-            </View>
-            <View style={{ alignItems: 'flex-start' }}>
-                <Button onPress={() => console.log("Pressed")} type="primary">To Bundle Feeds</Button>
-            </View> */}
             <FlatList 
                 data={bundles}
                 style={{ flex: 1 }}
                 ListEmptyComponent={
                     <Empty 
-                        text="No bundles added. Add a new bundle by pressing the plus icon above."
+                        content="No bundles added. Add a new bundle by pressing the plus icon above."
                     />
                 }
                 renderItem={({ item }) => (
                     <BundleItem 
                         key={item.id}
                         item={item}
-                        onPress={() => navigation.navigate('Bundle Feeds', { bundle: bundles.find(searchedBundle => searchedBundle.id === item.id) })}
+                        onPress={() => navigation.navigate(
+                            'Bundle Feeds', 
+                            { bundle: bundles.find(searchedBundle => searchedBundle.id === item.id) }
+                        )}
                     />
                 )}
-
             />
         </MainLayout>
     )

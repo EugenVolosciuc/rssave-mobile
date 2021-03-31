@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigation } from '@react-navigation/native'
 
 import { Input, Button } from '../ui'
 import { useDataService } from '../../utils/DataService'
 
-const CreateBundleForm = () => {
+const CreateFeedForm = () => {
     const [formData, setFormData] = useState({
-        title: ''
+        title: '',
+        url: ''
     })
     const navigation = useNavigation()
     const DataService = useDataService()
@@ -21,28 +22,41 @@ const CreateBundleForm = () => {
     }
 
     const handleSubmit = () => {
-        const bundleData = {
+        const feedData = {
             id: uuidv4(),
             title: formData.title,
             createdAt: new Date().toISOString(),
-            feeds: []
+            url: formData.url,
+            bundles: []
         }
 
-        DataService.addBundle(bundleData)
+        DataService.addFeed(feedData)
         navigation.goBack()
     }
 
     return (
         <View style={styles.container}>
             <View>
-                <Input
-                    value={formData.title}
-                    onChange={value => handleFormChange(value, 'title')}
-                    label="Title"
-                    placeholder="Add bundle title"
-                    clearOnNavChange
-                />
+                <View style={{ marginBottom: 10 }}>
+                    <Input
+                        value={formData.title}
+                        onChange={value => handleFormChange(value, 'title')}
+                        label="Title"
+                        placeholder="Add feed title"
+                        clearOnNavChange
+                    />
+                </View>
+                <View>
+                    <Input
+                        value={formData.url}
+                        onChange={value => handleFormChange(value, 'url')}
+                        label="RSS feed link"
+                        placeholder="Add feed URL"
+                        clearOnNavChange
+                    />
+                </View>
             </View>
+
             <View style={styles.buttonContainer}>
                 <Button onPress={handleSubmit} type="primary">Save</Button>
             </View>
@@ -50,7 +64,7 @@ const CreateBundleForm = () => {
     )
 }
 
-export default CreateBundleForm
+export default CreateFeedForm
 
 const styles = StyleSheet.create({
     container: {

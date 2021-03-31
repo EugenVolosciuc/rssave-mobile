@@ -5,41 +5,38 @@ import { useTheme } from '@react-navigation/native'
 import SimpleListItem from './SimpleListItem'
 import { Typography } from '../ui'
 
-const getStringNumOfFeeds = num => {
+const getStringNumOfBundles = num => {
     switch (num) {
         case 1:
-            return `${num} feed`
+            return `In ${num} bundle`
         default:
-            return `${num} feeds`
+            return `In ${num} bundles`
     }
 }
 
-const BundleItem = ({ item, onPress }) => {
+const FeedItem = ({ item, onPress }) => {
     const { colors } = useTheme()
 
     return (
         <SimpleListItem onPress={onPress} withPadding>
             <View
-                style={{
-                    ...styles.bundleItem,
-                }}
+                style={styles.feedItem}
             >
                 <Typography size="lg">{item.title}</Typography>
-                <Typography size="sm" color={colors.darkGray}>{getStringNumOfFeeds(item.feeds.length)}</Typography>
+                <Typography size="sm" color={colors.darkGray}>{getStringNumOfBundles(item.bundles.length)}</Typography>
             </View>
         </SimpleListItem>
     )
 }
 
-export default BundleItem
+export default FeedItem
 
 const styles = StyleSheet.create({
-    bundleItem: {
+    feedItem: {
         borderWidth: 2,
         borderColor: 'transparent',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
-        // paddingVertical: 8
     }
 })

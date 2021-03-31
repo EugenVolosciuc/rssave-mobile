@@ -1,9 +1,9 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
 
 import MainLayout from '../components/layouts/MainLayout'
+import CreateFeedForm from '../components/forms/CreateFeedForm'
 
-const AddFeed = ({ navigation }) => {
+const AddFeed = () => {
     const headerOptions = {
         title: 'Add Feed',
         showHamburger: false,
@@ -11,11 +11,9 @@ const AddFeed = ({ navigation }) => {
 
     return (
         <MainLayout headerOptions={headerOptions}>
-            <Text>It's only a test</Text>
+            <CreateFeedForm />
         </MainLayout>
     )
 }
 
 export default AddFeed
-
-const styles = StyleSheet.create({})

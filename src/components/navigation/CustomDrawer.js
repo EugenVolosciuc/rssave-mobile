@@ -1,7 +1,7 @@
 import React from 'react'
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
 
-const hiddenDrawerItems = ['Bundle Feeds', 'Add Feed', 'Add Bundle']
+const hiddenDrawerItems = ['Bundle Feeds', 'Add Feed', 'Add Bundle', 'Single Feed']
 
 // gets modified state after filtering through drawer items that shouldn't appear in the drawer
 const getNewDrawerState = state => {

@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, TouchableWithoutFeedback, TextInput, Keyboard, Platform } from 'react-native'
 import { useTheme } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
+
 import Typography from './Typography'
 
 const Input = ({
@@ -10,9 +12,11 @@ const Input = ({
     placeholder = "",
     onSubmit = () => null,
     width = '100%',
-    disabled
+    disabled,
+    clearOnNavChange
 }) => {
     const { colors } = useTheme()
+    const navigation = useNavigation()
 
     const inputStyles = {
         letterSpacing: 0.9,
@@ -26,6 +30,17 @@ const Input = ({
             borderColor: colors.lightGray
         })
     }
+
+    useEffect(() => {
+        if (clearOnNavChange) {
+            const unsubscribe = navigation.addListener(
+                'blur',
+                () => onChange('')
+            )
+    
+            return unsubscribe
+        }
+    }, [navigation])
 
     return (
         <View style={{ width }}>

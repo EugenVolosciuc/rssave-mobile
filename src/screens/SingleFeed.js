@@ -1,15 +1,17 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { Text } from 'react-native'
 
 import MainLayout from '../components/layouts/MainLayout'
 
-const BundleFeeds = ({ navigation, route }) => {
-    const { bundle } = route.params
+const SingleFeed = ({ navigation, route }) => {
+    const { feed } = route.params
     
     const headerOptions = {
-        title: bundle.title,
+        title: feed.title,
         showHamburger: false,
     }
+
+    console.log("FEED!!!", feed)
 
     return (
         <MainLayout headerOptions={headerOptions}>
@@ -18,4 +20,4 @@ const BundleFeeds = ({ navigation, route }) => {
     )
 }
 
-export default BundleFeeds
+export default SingleFeed

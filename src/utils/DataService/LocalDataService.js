@@ -9,7 +9,6 @@ class LocalDataService {
     // Bundle funcs
     // TODO: add sorting and search functionality
     async getBundles() {
-        console.log("this.localData", this.localData)
         return this.localData.bundles
     }
 
@@ -35,7 +34,7 @@ class LocalDataService {
 
     // Feed funcs
     async getAllFeeds() {
-        return
+        return this.localData.feeds
     }
 
     async getBundleFeeds(bundleId) {
@@ -44,8 +43,13 @@ class LocalDataService {
     }
 
     async addFeed(feedData) {
-        console.log("feedData", feedData)
-        return
+        this.setLocalData({
+            ...this.localData,
+            feeds: [
+                ...this.localData.feeds,
+                feedData
+            ]
+        })
     }
 
     async modifyFeed(feedData) {
