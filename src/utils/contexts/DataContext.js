@@ -1,31 +1,31 @@
 import React, { useState, useEffect, useRef, createContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import isEqual from 'lodash/isEqual'
 
-const emptyDataStructure = {
+const ASYNC_STORAGE_APP_NAME = '@rssave'
+
+export const emptyDataStructure = {
     bundles: [],
     favourites: [],
     feeds: []
 }
 
-const ASYNC_STORAGE_APP_NAME = '@rssave'
-
-export const dataContext = createContext({})
+export const dataContext = createContext(emptyDataStructure)
 
 export default function DataProvider({ children }) {
     const mounted = useRef(false)
-    const [data, setData] = useState({})
+    const [data, setData] = useState(emptyDataStructure)
 
     // Load data when app opens - if any, otherwise set empty data
     useEffect(() => {
         (async () => {
             try {
-                const data = await AsyncStorage.getItem(ASYNC_STORAGE_APP_NAME)
-                console.log("data here", JSON.parse(data))
+                const loadedData = await AsyncStorage.getItem(ASYNC_STORAGE_APP_NAME)
 
-                if (data) return setData(JSON.parse(data))
+                if (loadedData) return setData(JSON.parse(loadedData))
 
                 await AsyncStorage.setItem(
-                    ASYNC_STORAGE_APP_NAME, 
+                    ASYNC_STORAGE_APP_NAME,
                     JSON.stringify(emptyDataStructure)
                 )
             } catch (error) {
@@ -38,8 +38,15 @@ export default function DataProvider({ children }) {
 
     // When the data state changes, update the asyncStorage for consistency
     useEffect(() => {
-        // TODO
-        if (mounted.current && data?.bundles) {
+        if (mounted.current && isEqual(data, emptyDataStructure)) { // data wipe listener
+            (async () => {
+                try {
+                    await AsyncStorage.removeItem(ASYNC_STORAGE_APP_NAME)
+                } catch (error) {
+                    console.log("Error removing data", error)
+                }
+            })()
+        } else if (mounted.current) { // data update listener
             (async () => {
                 try {
                     await AsyncStorage.setItem(

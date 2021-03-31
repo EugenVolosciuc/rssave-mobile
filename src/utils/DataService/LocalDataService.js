@@ -1,3 +1,4 @@
+import { emptyDataStructure } from '../contexts/DataContext'
 // NOTE: returning promises for all the methods to have a consistent flow for the different data service types (local/graphcms)
 class LocalDataService {
     constructor(localData, setLocalData) {
@@ -66,6 +67,11 @@ class LocalDataService {
 
     async removeFavourite(favouriteId) {
         return
+    }
+
+    // General funcs
+    async removeAllData() {
+        this.setLocalData(emptyDataStructure)
     }
 }
 

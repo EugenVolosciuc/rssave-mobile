@@ -7,8 +7,8 @@ export const defaultTheme = {
         primary: '#607A9F',
         secondary: '#80C6BD',
         white: '#F8F7FF',
-        lightGray: '#CCC',
-        darkGray: '#666',
+        lightGray: '#EDEAEA',
+        darkGray: '#808080',
         danger: '#FF5964'
     },
     layout: {

@@ -10,7 +10,7 @@ const Button = ({ children, disabled, onPress, type = "secondary" }) => {
         ...styles.button,
         ...(type === 'primary' && {
             backgroundColor: colors.primary,
-            borderColor: 'rgba(0,0,0,0)',
+            borderColor: 'transparent',
             borderWidth: 2,
             borderRadius: 25
         }),
@@ -21,7 +21,8 @@ const Button = ({ children, disabled, onPress, type = "secondary" }) => {
             borderRadius: 25
         }),
         ...(disabled && {
-            backgroundColor: colors.lightGray
+            backgroundColor: colors.lightGray,
+            borderColor: colors.lightGray
         })
     }
 
