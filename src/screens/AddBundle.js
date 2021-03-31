@@ -11,7 +11,7 @@ const AddBundle = ({ navigation }) => {
     }
 
     return (
-        <MainLayout headerOptions={headerOptions}>
+        <MainLayout headerOptions={headerOptions} whiteBg>
             <CreateBundleForm />
         </MainLayout>
     )

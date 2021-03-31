@@ -2,14 +2,21 @@ import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigation } from '@react-navigation/native'
+import isURL from 'validator/lib/isURL'
 
 import { Input, Button } from '../ui'
 import { useDataService } from '../../utils/DataService'
 
 const CreateFeedForm = () => {
     const [formData, setFormData] = useState({
-        title: '',
-        url: ''
+        title: {
+            value: '',
+            error: null
+        },
+        url: {
+            value: '',
+            error: null
+        }
     })
     const navigation = useNavigation()
     const DataService = useDataService()
@@ -17,22 +24,38 @@ const CreateFeedForm = () => {
     const handleFormChange = (value, property) => {
         setFormData({
             ...formData,
-            [property]: value
+            [property]: {
+                value,
+                error: null
+            }
         })
     }
 
     const handleSubmit = () => {
+        const { title, url } = formData
+        if (!isURL(url.value)) {
+            return setFormData({
+                ...formData,
+                url: {
+                    value: formData.url.value,
+                    error: 'Please add a valid URL'
+                }
+            })
+        }
+
         const feedData = {
             id: uuidv4(),
-            title: formData.title,
+            title: title.value,
             createdAt: new Date().toISOString(),
-            url: formData.url,
+            url: url.value,
             bundles: []
         }
 
         DataService.addFeed(feedData)
         navigation.goBack()
     }
+
+    const saveBtnIsDisabled = !formData.title || !formData.url
 
     return (
         <View style={styles.container}>
@@ -58,7 +81,7 @@ const CreateFeedForm = () => {
             </View>
 
             <View style={styles.buttonContainer}>
-                <Button onPress={handleSubmit} type="primary">Save</Button>
+                <Button onPress={handleSubmit} type="primary" disabled={saveBtnIsDisabled}>Save</Button>
             </View>
         </View>
     )

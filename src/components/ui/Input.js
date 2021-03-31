@@ -46,7 +46,7 @@ const Input = ({
         <View style={{ width }}>
             {label &&
                 <Typography
-                    style={{ color: colors.text, marginBottom: 2 }}>
+                    style={{ marginBottom: 2 }}>
                     {label}
                 </Typography>
             }
@@ -55,13 +55,20 @@ const Input = ({
                     <TextInput
                         style={{ letterSpacing: 0.3 }}
                         placeholder={placeholder}
-                        value={value}
+                        value={value.value}
                         onChangeText={onChange}
                         onSubmitEditing={onSubmit}
                         editable={!disabled}
                     />
                 </View>
             </TouchableWithoutFeedback>
+            {value.error &&
+                <Typography
+                    style={{ marginTop: 2 }}
+                    color={colors.danger}>
+                    {value.error}
+                </Typography>
+            }
         </View>
     )
 }

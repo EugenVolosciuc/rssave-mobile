@@ -10,7 +10,7 @@ const AddFeed = () => {
     }
 
     return (
-        <MainLayout headerOptions={headerOptions}>
+        <MainLayout headerOptions={headerOptions} whiteBg>
             <CreateFeedForm />
         </MainLayout>
     )

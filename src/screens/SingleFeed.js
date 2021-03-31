@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text } from 'react-native'
 
 import MainLayout from '../components/layouts/MainLayout'
 
 const SingleFeed = ({ navigation, route }) => {
+    const [articles, setArticles] = useState([])
     const { feed } = route.params
     
     const headerOptions = {
@@ -12,6 +13,14 @@ const SingleFeed = ({ navigation, route }) => {
     }
 
     console.log("FEED!!!", feed)
+
+    useEffect(() => {
+        try {
+            
+        } catch (error) {
+            console.log("ERROR getting feed articles", error)
+        }
+    }, [])
 
     return (
         <MainLayout headerOptions={headerOptions}>

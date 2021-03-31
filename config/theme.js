@@ -9,7 +9,7 @@ export const defaultTheme = {
         white: '#F8F7FF',
         lightGray: '#EDEAEA',
         darkGray: '#808080',
-        danger: '#FF5964'
+        danger: '#D4656C'
     },
     layout: {
         horizontalPadding: 10,

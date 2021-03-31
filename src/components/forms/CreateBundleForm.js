@@ -8,7 +8,10 @@ import { useDataService } from '../../utils/DataService'
 
 const CreateBundleForm = () => {
     const [formData, setFormData] = useState({
-        title: ''
+        title: {
+            value: '',
+            error: null
+        }
     })
     const navigation = useNavigation()
     const DataService = useDataService()
@@ -44,7 +47,12 @@ const CreateBundleForm = () => {
                 />
             </View>
             <View style={styles.buttonContainer}>
-                <Button onPress={handleSubmit} type="primary">Save</Button>
+                <Button 
+                    onPress={handleSubmit} 
+                    type="primary"
+                    disabled={!formData.title.length}>
+                    Save
+                </Button>
             </View>
         </View>
     )
