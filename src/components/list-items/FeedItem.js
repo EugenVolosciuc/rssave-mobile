@@ -17,11 +17,24 @@ const getStringNumOfBundles = num => {
 const FeedItem = ({ item, onPress }) => {
     const { colors } = useTheme()
 
+    const longPressActions = [
+        {
+            title: 'Add to bundle',
+            handler: () => console.log("Add to favourite articles")
+        },
+        {
+            title: 'Modify feed',
+            handler: () => console.log("Add to favourite articles")
+        },
+        {
+            title: 'Remove feed',
+            handler: () => console.log("Add to favourite articles")
+        },
+    ]
+
     return (
-        <SimpleListItem onPress={onPress} withPadding>
-            <View
-                style={styles.feedItem}
-            >
+        <SimpleListItem onPress={onPress} longPressActions={longPressActions} withPadding>
+            <View style={styles.feedItem}>
                 <Typography size="lg">{item.title}</Typography>
                 <Typography size="sm" color={colors.darkGray}>{getStringNumOfBundles(item.bundles.length)}</Typography>
             </View>

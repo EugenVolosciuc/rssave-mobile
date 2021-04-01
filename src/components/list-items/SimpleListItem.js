@@ -1,19 +1,35 @@
-import React from 'react'
-import { StyleSheet, View, TouchableWithoutFeedback } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, View, TouchableWithoutFeedback, Modal, FlatList, TouchableOpacity } from 'react-native'
 import { useTheme } from '@react-navigation/native'
+import isEmpty from 'lodash/isEmpty'
 
-const SimpleListItem = ({ children, onPress, withPadding }) => {
+import ActionsModal from '../modals/ActionsModal'
+
+const SimpleListItem = ({ children, onPress, withPadding, longPressActions = [] }) => {
+    const [actionsModalVisible, setActionsModalVisible] = useState(false)
     const { colors } = useTheme()
 
+    // TODO: add a prop called longPressActions: 
+    // ex. [{ { title: 'Add to bundle', handler }, { title: 'Modify feed', handler }, { title: 'Remove feed', handler }]
     return (
-        <TouchableWithoutFeedback onPress={onPress}>
+        <TouchableWithoutFeedback 
+            onPress={onPress} 
+            onLongPress={() => isEmpty(longPressActions)
+                ? null
+                : setActionsModalVisible(!actionsModalVisible)
+            }
+        >
             <View
                 style={{
-                    ...styles.container,
+                    ...styles.listItemContainer,
                     ...(withPadding && { padding: 10 }),
                     backgroundColor: colors.white
-                }}
-            >
+                }}>
+                    <ActionsModal 
+                        visible={actionsModalVisible} 
+                        onRequestClose={() => setActionsModalVisible(!actionsModalVisible)} 
+                        actions={longPressActions} 
+                    />
                 {children}
             </View>
         </TouchableWithoutFeedback>
@@ -23,8 +39,8 @@ const SimpleListItem = ({ children, onPress, withPadding }) => {
 export default SimpleListItem
 
 const styles = StyleSheet.create({
-    container: {
+    listItemContainer: {
         borderRadius: 10,
-        marginBottom: 10
+        marginBottom: 12
     }
 })

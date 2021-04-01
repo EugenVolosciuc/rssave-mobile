@@ -17,14 +17,23 @@ const ArticleItem = ({ item }) => {
     const articleImageURL = findArticleImage(item)
     const maxTitleLength = articleImageURL ? 70 : 90
 
+    const longPressActions = [
+        {
+            title: 'Add to Favourites',
+            handler: () => console.log("Add to favourite articles")
+        }
+    ]
+
     return (
-        <SimpleListItem onPress={() => articleLink ? WebBrowser.openBrowserAsync(articleLink) : null}>
+        <SimpleListItem 
+            onPress={() => articleLink ? WebBrowser.openBrowserAsync(articleLink) : null}
+            longPressActions={longPressActions}>
             <View style={styles.generalContainer}>
                 <View style={{ ...styles.details, width: articleImageURL ? '75%' : '100%' }}>
                     <Typography>{truncateString(item.title, maxTitleLength)}</Typography>
                 </View>
                 <View style={styles.imageContainer}>
-                    <ImageBackground style={styles.image} source={{ uri: articleImageURL }}>
+                    <ImageBackground imageStyle={styles.image} style={styles.image} source={{ uri: articleImageURL }}>
                         <LinearGradient
                             colors={[colors.white, 'rgba(255, 255, 255, 0.7)', 'transparent']}
                             start={{ x: 0, y: 0.8 }}
@@ -58,7 +67,9 @@ const styles = StyleSheet.create({
         top: 0,
         height: '100%',
         width: '40%',
-        borderRadius: 10
+        borderRadius: 10,
+        borderTopRightRadius: 10,
+        borderBottomRightRadius: 10,
     },
     image: {
         borderTopRightRadius: 10,
