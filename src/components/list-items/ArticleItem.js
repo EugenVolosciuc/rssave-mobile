@@ -1,9 +1,11 @@
 import React from 'react'
-import { StyleSheet, ImageBackground, View } from 'react-native'
+import { StyleSheet, ImageBackground, View, TouchableWithoutFeedback } from 'react-native'
 import { useTheme } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
+import * as WebBrowser from 'expo-web-browser'
 
 import SimpleListItem from './SimpleListItem'
+import findArticleLink from '../../utils/functions/findArticleLink'
 import findArticleImage from '../../utils/functions/findArticleImage'
 import truncateString from '../../utils/functions/truncateString'
 import { Typography } from '../ui'
@@ -11,13 +13,14 @@ import { Typography } from '../ui'
 const ArticleItem = ({ item }) => {
     const { colors } = useTheme()
 
+    const articleLink = findArticleLink(item)
     const articleImageURL = findArticleImage(item)
     const maxTitleLength = articleImageURL ? 70 : 90
 
     return (
-        <SimpleListItem>
+        <SimpleListItem onPress={() => articleLink ? WebBrowser.openBrowserAsync(articleLink) : null}>
             <View style={styles.generalContainer}>
-                <View style={{...styles.details, width: articleImageURL ? '75%' : '100%' }}>
+                <View style={{ ...styles.details, width: articleImageURL ? '75%' : '100%' }}>
                     <Typography>{truncateString(item.title, maxTitleLength)}</Typography>
                 </View>
                 <View style={styles.imageContainer}>

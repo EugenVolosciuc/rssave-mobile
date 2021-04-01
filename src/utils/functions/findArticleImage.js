@@ -17,7 +17,5 @@ export default function findArticleImage(articleData) {
         }
     }
 
-
-
     return articleImage
 }

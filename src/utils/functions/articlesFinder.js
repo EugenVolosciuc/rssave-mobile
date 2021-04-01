@@ -2,7 +2,7 @@ import get from 'lodash/get'
 // Receives an RSS feed as JSON and returns the articles from the feed
 
 // Tested feeds:
-// Tofugu
+// Tofugu, Hacker News, NYT World
 
 const possiblePaths = [
     'feed.entry',
