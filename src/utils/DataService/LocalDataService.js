@@ -1,20 +1,10 @@
+import axios from 'axios'
 import isEmpty from 'lodash/isEmpty'
+import parser from 'fast-xml-parser'
 
 import { emptyDataStructure } from '../contexts/DataContext'
-
-const getItemAndItemIndexByID = (allItems, itemID) => {
-    let item, itemIndex
-
-    for (let i = 0; i < allItems.length; i++) {
-        if (allItems[i].id === itemID) {
-            item = allItems[i]
-            itemIndex = i
-            break
-        }
-    }
-
-    return { item, itemIndex }
-}
+import getItemAndItemIndexByID from '../functions/getItemAndItemIndexByID'
+import articlesFinder from '../functions/articlesFinder'
 
 // NOTE: returning promises for all the methods to have a consistent flow for the different data service types (local/graphcms)
 class LocalDataService {
@@ -23,7 +13,7 @@ class LocalDataService {
         this.setLocalData = setLocalData
     }
 
-    // Bundle funcs
+    // BUNDLE FUNCS
     // TODO: add sorting functionality
     async getBundles() {
         return this.localData.bundles
@@ -104,14 +94,17 @@ class LocalDataService {
         })
     }
 
-    // Feed funcs
+    // FEED FUNCS
     async getAllFeeds() {
         return this.localData.feeds
     }
 
     async getBundleFeeds(bundleID) {
-        console.log("bundleID", bundleID)
-        return
+        const allBundles = this.localData.bundles
+
+        const { item: bundle } = getItemAndItemIndexByID(allBundles, bundleID)
+
+        return this.localData.feeds.filter(feed => bundle.feeds.includes(feed.id))
     }
 
     async addFeed(feedData) {
@@ -189,7 +182,29 @@ class LocalDataService {
         })
     }
 
-    // Favourite funcs
+    // ARTICLE FUNCS
+    async getArticlesFromFeeds(urls) {
+        const requests = urls.map(url => axios.get(url))
+
+        const articles = await Promise.all(requests)
+            .then(results => {
+                let parsedArticles = []
+
+                results.forEach(result => {
+                    const { data: xmlResponse } = result
+                    const jsonData = parser.parse(xmlResponse, { ignoreAttributes: false })
+                    const articlesFromResponse = articlesFinder(jsonData)
+
+                    parsedArticles = parsedArticles.concat(articlesFromResponse)
+                })
+
+                return parsedArticles
+            })
+
+        return articles
+    }
+
+    // FAVOURITE FUNCS
     async getFavourites() {
         return
     }

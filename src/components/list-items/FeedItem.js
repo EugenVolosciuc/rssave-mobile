@@ -44,10 +44,10 @@ const FeedItem = ({ item, onPress, selected = null }) => {
             title: 'Change feed bundles',
             handler: () => navigation.navigate('Change Bundles for Feed', { feed: item })
         },
-        {
-            title: 'Modify feed',
-            handler: () => console.log("Add to favourite articles")
-        },
+        // {
+        //     title: 'Modify feed',
+        //     handler: () => console.log("Add to favourite articles")
+        // },
         {
             title: 'Remove feed',
             handler: createFeedRemovalAlert

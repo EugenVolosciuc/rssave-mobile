@@ -44,10 +44,10 @@ const BundleItem = ({ item, onPress, selected = null }) => {
             title: 'Change bundle feeds',
             handler: () => navigation.navigate('Change Feeds for Bundle', { bundle: item })
         },
-        {
-            title: 'Modify bundle',
-            handler: () => console.log('Modifying bundle')
-        },
+        // {
+        //     title: 'Modify bundle',
+        //     handler: () => console.log('Modifying bundle')
+        // },
         {
             title: 'Remove bundle',
             handler: createBundleRemovalAlert
