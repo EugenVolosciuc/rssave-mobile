@@ -1,6 +1,21 @@
 import isEmpty from 'lodash/isEmpty'
 
 import { emptyDataStructure } from '../contexts/DataContext'
+
+const getItemAndItemIndexByID = (allItems, itemID) => {
+    let item, itemIndex
+
+    for (let i = 0; i < allItems.length; i++) {
+        if (allItems[i].id === itemID) {
+            item = allItems[i]
+            itemIndex = i
+            break
+        }
+    }
+
+    return { item, itemIndex }
+}
+
 // NOTE: returning promises for all the methods to have a consistent flow for the different data service types (local/graphcms)
 class LocalDataService {
     constructor(localData, setLocalData) {
@@ -24,6 +39,39 @@ class LocalDataService {
         })
     }
 
+    async changeBundleFeeds(bundleID, selectedFeeds) {
+        const allBundles = this.localData.bundles
+        const { item: modifiedBundle, itemIndex: bundleIndex } = getItemAndItemIndexByID(allBundles, bundleID)
+
+        // 1. Change feeds array in bundle
+        const selectedFeedIDs = selectedFeeds.map(feed => feed.id)
+        modifiedBundle.feeds = selectedFeedIDs
+
+        // 2. Change bundles array for every modified feed (added or removed)
+        const allFeeds = [...this.localData.feeds]
+
+        const modifiedFeeds = allFeeds.map(feed => {
+            const feedCopy = { ...feed }
+
+            if (!selectedFeedIDs.includes(feedCopy.id)) {
+                feedCopy.bundles = feedCopy.bundles.filter(bundle => bundle !== bundleID)
+            } else if (!feedCopy.bundles.includes(bundleID)) {
+                feedCopy.bundles = [...feedCopy.bundles, bundleID]
+            }
+
+            return feedCopy
+        })
+
+        const bundlesCopy = [...this.localData.bundles]
+        bundlesCopy[bundleIndex] = modifiedBundle
+
+        this.setLocalData({
+            ...this.localData,
+            bundles: bundlesCopy,
+            feeds: modifiedFeeds
+        })
+    }
+
     async modifyBundle(bundleData) {
         console.log("bundleData", bundleData)
         return
@@ -31,16 +79,7 @@ class LocalDataService {
 
     async removeBundle(bundleID) {
         const allBundles = this.localData.bundles
-        let bundle, bundleIndex
-
-        // Find bundle to be removed and its index
-        for (let i = 0; i < allBundles.length; i++) {
-            if (allBundles[i].id === bundleID) {
-                bundle = allBundles[i]
-                bundleIndex = i
-                break
-            }
-        }
+        const { item: bundle, itemIndex: bundleIndex } = getItemAndItemIndexByID(allBundles, bundleID)
 
         // Remove bundle from feeds if it has any feeds in it
         let updatedFeeds = [...this.localData.feeds]
@@ -85,23 +124,47 @@ class LocalDataService {
         })
     }
 
-    async modifyFeed(feedData) {
+    async changeFeedBundles(feedID, selectedBundles) {
+        const allFeeds = this.localData.feeds
+        const { item: modifiedFeed, itemIndex: feedIndex } = getItemAndItemIndexByID(allFeeds, feedID)
+
+        // 1. Change bundles array in feed
+        const selectedBundleIDs = selectedBundles.map(bundle => bundle.id)
+        modifiedFeed.bundles = selectedBundleIDs
+
+        // 2. Change feeds array for every modified bundle (added or removed)
+        const allBundles = [...this.localData.bundles]
+
+        const modifiedBundles = allBundles.map(bundle => {
+            const bundleCopy = { ...bundle }
+
+            if (!selectedBundleIDs.includes(bundleCopy.id)) {
+                bundleCopy.feeds = bundleCopy.feeds.filter(feed => feed !== feedID)
+            } else if (!bundleCopy.feeds.includes(feedID)) {
+                bundleCopy.feeds = [...bundleCopy.feeds, feedID]
+            }
+
+            return bundleCopy
+        })
+
+        const feedsCopy = [...this.localData.feeds]
+        feedsCopy[feedIndex] = modifiedFeed
+
+        this.setLocalData({
+            ...this.localData,
+            feeds: feedsCopy,
+            bundles: modifiedBundles
+        })
+    }
+
+    async modifyFeedData(feedID, feedData) {
         console.log("feedData", feedData)
         return
     }
 
     async removeFeed(feedID) {
         const allFeeds = this.localData.feeds
-        let feed, feedIndex
-
-        // Find feed to be removed and its index
-        for (let i = 0; i < allFeeds.length; i++) {
-            if (allFeeds[i].id === feedID) {
-                feed = allFeeds[i]
-                feedIndex = i
-                break
-            }
-        }
+        const { item: feed, itemIndex: feedIndex } = getItemAndItemIndexByID(allFeeds, feedID)
 
         // Remove feed from feeds if it has any feeds in it
         let updatedBundles = [...this.localData.bundles]

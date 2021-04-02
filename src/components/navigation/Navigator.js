@@ -14,7 +14,9 @@ import {
     About,
     AddBundle,
     AddFeed,
-    SingleFeed
+    SingleFeed,
+    ChangeFeedsForBundle,
+    ChangeBundlesForFeed
 } from '../../screens'
 
 const Drawer = createDrawerNavigator()
@@ -61,6 +63,14 @@ const Navigator = () => {
                 <Drawer.Screen
                     name="Single Feed"
                     component={SingleFeed}
+                />
+                <Drawer.Screen
+                    name="Change Bundles for Feed"
+                    component={ChangeBundlesForFeed}
+                />
+                <Drawer.Screen
+                    name="Change Feeds for Bundle"
+                    component={ChangeFeedsForBundle}
                 />
             </Drawer.Navigator>
         </NavigationContainer>

@@ -8,7 +8,7 @@ import { service } from './src/utils/DataService'
 import DataProvider from './src/utils/contexts/DataContext'
 
 export default function App() {
-	// NOTE: If local service, app should be loadisng until data is "fetched".
+	// NOTE: If local service, app should be loading until data is "fetched".
 	// Moving dataLoaded bool in App instead of DataContext because here is where we add the AppLoading component 
 	// and we can't access the data context in app, as it's not yet provided
 

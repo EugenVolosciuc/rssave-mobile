@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
 import { useTheme } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 
 import SimpleListItem from './SimpleListItem'
 import { Typography } from '../ui'
@@ -15,8 +16,9 @@ const getStringNumOfBundles = num => {
     }
 }
 
-const FeedItem = ({ item, onPress }) => {
+const FeedItem = ({ item, onPress, selected = null }) => {
     const { colors } = useTheme()
+    const navigation = useNavigation()
     const DataService = useDataService()
 
     const createFeedRemovalAlert = () => Alert.alert(
@@ -40,7 +42,7 @@ const FeedItem = ({ item, onPress }) => {
     const longPressActions = [
         {
             title: 'Change feed bundles',
-            handler: () => console.log("Add to favourite articles")
+            handler: () => navigation.navigate('Change Bundles for Feed', { feed: item })
         },
         {
             title: 'Modify feed',
@@ -53,10 +55,16 @@ const FeedItem = ({ item, onPress }) => {
     ]
 
     return (
-        <SimpleListItem onPress={onPress} longPressActions={longPressActions} withPadding>
+        <SimpleListItem
+            onPress={onPress}
+            longPressActions={longPressActions}
+            selected={selected}
+            withPadding>
             <View style={styles.feedItem}>
                 <Typography size="lg">{item.title}</Typography>
-                <Typography size="sm" color={colors.darkGray}>{getStringNumOfBundles(item.bundles.length)}</Typography>
+                <Typography size="sm" color={colors.darkGray}>
+                    {getStringNumOfBundles(item.bundles.length)}
+                </Typography>
             </View>
         </SimpleListItem>
     )
@@ -66,6 +74,7 @@ export default FeedItem
 
 const styles = StyleSheet.create({
     feedItem: {
+        flex: 1,
         borderWidth: 2,
         borderColor: 'transparent',
         flexDirection: 'row',

@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Alert } from 'react-native'
 import { useTheme } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 
 import SimpleListItem from './SimpleListItem'
 import { Typography } from '../ui'
@@ -15,8 +16,9 @@ const getStringNumOfFeeds = num => {
     }
 }
 
-const BundleItem = ({ item, onPress }) => {
+const BundleItem = ({ item, onPress, selected = null }) => {
     const { colors } = useTheme()
+    const navigation = useNavigation()
     const DataService = useDataService()
 
     const createBundleRemovalAlert = () => Alert.alert(
@@ -40,7 +42,7 @@ const BundleItem = ({ item, onPress }) => {
     const longPressActions = [
         {
             title: 'Change bundle feeds',
-            handler: () => console.log("Add to favourite articles")
+            handler: () => navigation.navigate('Change Feeds for Bundle', { bundle: item })
         },
         {
             title: 'Modify bundle',
@@ -53,9 +55,10 @@ const BundleItem = ({ item, onPress }) => {
     ]
 
     return (
-        <SimpleListItem 
-            onPress={onPress} 
-            longPressActions={longPressActions} 
+        <SimpleListItem
+            onPress={onPress}
+            longPressActions={longPressActions}
+            selected={selected}
             withPadding>
             <View
                 style={{
@@ -63,7 +66,9 @@ const BundleItem = ({ item, onPress }) => {
                 }}
             >
                 <Typography size="lg">{item.title}</Typography>
-                <Typography size="sm" color={colors.darkGray}>{getStringNumOfFeeds(item.feeds.length)}</Typography>
+                    <Typography size="sm" color={colors.darkGray}>
+                        {getStringNumOfFeeds(item.feeds.length)}
+                    </Typography>
             </View>
         </SimpleListItem>
     )
@@ -73,6 +78,7 @@ export default BundleItem
 
 const styles = StyleSheet.create({
     bundleItem: {
+        flex: 1,
         borderWidth: 2,
         borderColor: 'transparent',
         flexDirection: 'row',

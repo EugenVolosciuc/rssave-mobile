@@ -6,6 +6,8 @@ import Settings from './Settings'
 import AddFeed from './AddFeed'
 import AddBundle from './AddBundle'
 import SingleFeed from './SingleFeed'
+import ChangeBundlesForFeed from './ChangeBundlesForFeed'
+import ChangeFeedsForBundle from './ChangeFeedsForBundle'
 
 export {
     AllFeeds,
@@ -15,5 +17,7 @@ export {
     Settings,
     AddFeed,
     AddBundle,
-    SingleFeed
+    SingleFeed,
+    ChangeBundlesForFeed,
+    ChangeFeedsForBundle
 }

@@ -10,7 +10,7 @@ import findArticleImage from '../../utils/functions/findArticleImage'
 import truncateString from '../../utils/functions/truncateString'
 import { Typography } from '../ui'
 
-const ArticleItem = ({ item }) => {
+const ArticleItem = ({ item, selected = null }) => {
     const { colors } = useTheme()
 
     const articleLink = findArticleLink(item)
@@ -27,7 +27,8 @@ const ArticleItem = ({ item }) => {
     return (
         <SimpleListItem 
             onPress={() => articleLink ? WebBrowser.openBrowserAsync(articleLink) : null}
-            longPressActions={longPressActions}>
+            longPressActions={longPressActions}
+            selected={selected}>
             <View style={styles.generalContainer}>
                 <View style={{ ...styles.details, width: articleImageURL ? '75%' : '100%' }}>
                     <Typography>{truncateString(item.title, maxTitleLength)}</Typography>

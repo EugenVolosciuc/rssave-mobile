@@ -10,6 +10,7 @@ const ScreenHeader = ({
     title,
     handleSearch,
     handleAdd,
+    handleSave,
     showHamburger = false
 }) => {
     const { colors, layout } = useTheme()
@@ -61,6 +62,15 @@ const ScreenHeader = ({
                         style={styles.searchIcon}
                     />
                 }
+                {handleSave &&
+                    <Ionicons
+                        name="save"
+                        color={colors.white}
+                        size={22}
+                        onPress={handleSave}
+                        style={styles.saveIcon}
+                    />
+                }
             </View>
         </View>
     )
@@ -88,6 +98,10 @@ const styles = StyleSheet.create({
         paddingTop: 3,
         paddingBottom: 5,
         paddingLeft: 10
+    },
+    saveIcon: {
+        paddingLeft: 10,
+        paddingVertical: 5
     },
     leftSideContainer: {
         flexDirection: 'row',
