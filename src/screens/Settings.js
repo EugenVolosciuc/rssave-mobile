@@ -8,12 +8,12 @@ import { Typography } from '../components/ui'
 import { useDataService } from '../utils/DataService'
 import SettingItem from '../components/list-items/SettingItem'
 
-const SettingHeader = ({title}) => {
+const SettingHeader = ({ title }) => {
     const { colors } = useTheme()
 
-    return <Typography 
-        style={styles.settingHeader} 
-        color={colors.darkGray} 
+    return <Typography
+        style={styles.settingHeader}
+        color={colors.darkGray}
         size="sm">
         {title}
     </Typography>
@@ -32,9 +32,7 @@ const Settings = () => {
         'Remove data',
         "Are you you want to wipe all app data? Your bundles, feeds and favourite articles will be lost.",
         [
-            {
-                text: 'Cancel'
-            },
+            { text: 'Cancel' },
             {
                 text: 'OK',
                 onPress: async () => {
@@ -63,10 +61,10 @@ const Settings = () => {
 
     return (
         <MainLayout headerOptions={headerOptions} whiteBg>
-            <SectionList 
+            <SectionList
                 sections={settingsList}
                 keyExtractor={(item, index) => item.title + '-' + index}
-                renderItem={({item}) => <SettingItem item={item} />}
+                renderItem={({ item }) => <SettingItem item={item} />}
                 renderSectionHeader={({ section: { sectionTitle } }) => <SettingHeader title={sectionTitle} />}
             />
         </MainLayout>

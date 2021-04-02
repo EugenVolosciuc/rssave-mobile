@@ -1,9 +1,10 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Alert } from 'react-native'
 import { useTheme } from '@react-navigation/native'
 
 import SimpleListItem from './SimpleListItem'
 import { Typography } from '../ui'
+import { useDataService } from '../../utils/DataService'
 
 const getStringNumOfBundles = num => {
     switch (num) {
@@ -16,10 +17,29 @@ const getStringNumOfBundles = num => {
 
 const FeedItem = ({ item, onPress }) => {
     const { colors } = useTheme()
+    const DataService = useDataService()
+
+    const createFeedRemovalAlert = () => Alert.alert(
+        `Remove ${item.title} feed`,
+        'Are you sure you want to remove this feed? This does not remove favourite articles from the deleted feed.',
+        [
+            { text: 'Cancel' },
+            {
+                text: 'OK',
+                onPress: async () => {
+                    try {
+                        await DataService.removeFeed(item.id)
+                    } catch (error) {
+                        console.log("ERROR", error)
+                    }
+                }
+            }
+        ]
+    )
 
     const longPressActions = [
         {
-            title: 'Add to bundle',
+            title: 'Change feed bundles',
             handler: () => console.log("Add to favourite articles")
         },
         {
@@ -28,7 +48,7 @@ const FeedItem = ({ item, onPress }) => {
         },
         {
             title: 'Remove feed',
-            handler: () => console.log("Add to favourite articles")
+            handler: createFeedRemovalAlert
         },
     ]
 

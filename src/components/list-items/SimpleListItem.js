@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, TouchableWithoutFeedback, Modal, FlatList, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Modal, FlatList, TouchableOpacity } from 'react-native'
 import { useTheme } from '@react-navigation/native'
 import isEmpty from 'lodash/isEmpty'
 
@@ -12,7 +12,9 @@ const SimpleListItem = ({ children, onPress, withPadding, longPressActions = [] 
     // TODO: add a prop called longPressActions: 
     // ex. [{ { title: 'Add to bundle', handler }, { title: 'Modify feed', handler }, { title: 'Remove feed', handler }]
     return (
-        <TouchableWithoutFeedback 
+        <TouchableOpacity 
+            activeOpacity={0.6}
+            delayLongPress={250}
             onPress={onPress} 
             onLongPress={() => isEmpty(longPressActions)
                 ? null
@@ -26,13 +28,14 @@ const SimpleListItem = ({ children, onPress, withPadding, longPressActions = [] 
                     backgroundColor: colors.white
                 }}>
                     <ActionsModal 
-                        visible={actionsModalVisible} 
+                        visible={actionsModalVisible}
+                        setVisible={setActionsModalVisible} 
                         onRequestClose={() => setActionsModalVisible(!actionsModalVisible)} 
                         actions={longPressActions} 
                     />
                 {children}
             </View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
     )
 }
 

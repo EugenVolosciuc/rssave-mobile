@@ -4,8 +4,13 @@ import { useTheme } from '@react-navigation/native'
 
 import { Typography } from '../ui'
 
-const ActionsModal = ({ visible, onRequestClose, actions }) => {
+const ActionsModal = ({ visible, setVisible, onRequestClose, actions }) => {
     const { colors } = useTheme()
+
+    const handleActionPress = handler => {
+        handler()
+        setVisible(!visible)
+    }
 
     return (
         <Modal
@@ -25,7 +30,7 @@ const ActionsModal = ({ visible, onRequestClose, actions }) => {
 
                                 return <TouchableOpacity
                                     activeOpacity={0.6}
-                                    onPress={item.handler}>
+                                    onPress={() => handleActionPress(item.handler)}>
                                         <View style={{ 
                                             ...styles.actionItem,
                                             ...(isLastItem && { borderWidth: 0 }),
@@ -55,12 +60,13 @@ const styles = StyleSheet.create({
     },
     modal: {
         borderRadius: 10,
-        padding: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         width: '90%',
         height: 'auto'
     },
     actionItem: {
-        paddingVertical: 10,
+        paddingVertical: 14,
         borderWidth: 1,
         borderColor: 'transparent'
     }
