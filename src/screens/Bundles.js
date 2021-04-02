@@ -18,7 +18,7 @@ const Bundles = ({ navigation }) => {
         title: 'Bundles',
         showHamburger: true,
         handleAdd,
-        handleSearch
+        // handleSearch
     }
 
     useEffect(() => {

@@ -18,7 +18,7 @@ const AllFeeds = ({ navigation }) => {
         title: 'All Feeds',
         showHamburger: true,
         handleAdd,
-        handleSearch
+        // handleSearch
     }
 
     useEffect(() => {

@@ -5,6 +5,9 @@ import { useTheme } from '@react-navigation/native'
 import { useNavigation } from '@react-navigation/native'
 
 import { Typography } from '../ui'
+import truncateString from '../../utils/functions/truncateString'
+
+const maxHeaderTitleLength = 25
 
 const ScreenHeader = ({
     title,
@@ -42,7 +45,12 @@ const ScreenHeader = ({
                         style={styles.backIcon}
                     />
                 }
-                <Typography size="lg" color={colors.white}>{title}</Typography>
+                <Typography size="lg" color={colors.white}>
+                    {title?.length > maxHeaderTitleLength 
+                        ? truncateString(title, maxHeaderTitleLength) 
+                        : title
+                    }
+                </Typography>
             </View>
             <View style={styles.rightSideContainer}>
                 {handleAdd &&

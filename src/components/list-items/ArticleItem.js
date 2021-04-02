@@ -7,6 +7,7 @@ import * as WebBrowser from 'expo-web-browser'
 import SimpleListItem from './SimpleListItem'
 import findArticleLink from '../../utils/functions/findArticleLink'
 import findArticleImage from '../../utils/functions/findArticleImage'
+import findArticlePublishingDate from '../../utils/functions/findArticlePublishingDate'
 import truncateString from '../../utils/functions/truncateString'
 import { Typography } from '../ui'
 
@@ -15,6 +16,8 @@ const ArticleItem = ({ item, selected = null }) => {
 
     const articleLink = findArticleLink(item)
     const articleImageURL = findArticleImage(item)
+    const articlePublishingDate = findArticlePublishingDate(item)
+
     const maxTitleLength = articleImageURL ? 70 : 90
 
     const longPressActions = [
@@ -32,6 +35,9 @@ const ArticleItem = ({ item, selected = null }) => {
             <View style={styles.generalContainer}>
                 <View style={{ ...styles.details, width: articleImageURL ? '75%' : '100%' }}>
                     <Typography>{truncateString(item.title, maxTitleLength)}</Typography>
+                    {articlePublishingDate &&
+                        <Typography style={styles.publishingDate} size="sm" color={colors.darkGray}>{articlePublishingDate}</Typography>                    
+                    }
                 </View>
                 <View style={styles.imageContainer}>
                     <ImageBackground imageStyle={styles.image} style={styles.image} source={{ uri: articleImageURL }}>
@@ -56,11 +62,15 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        height: 100
+        height: 120
     },
     details: {
-        padding: 15,
-        zIndex: 2
+        paddingHorizontal: 15,
+        zIndex: 2,
+        justifyContent: 'space-between'
+    },
+    publishingDate: {
+        marginTop: 8
     },
     imageContainer: {
         position: 'absolute',
