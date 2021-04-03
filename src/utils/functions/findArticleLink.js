@@ -1,6 +1,7 @@
 import get from 'lodash/get'
 
 const possiblePaths = [
+    "enclosure[@_url]",
     "link['@_href']",
     "link"
 ]

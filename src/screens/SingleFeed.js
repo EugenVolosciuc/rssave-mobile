@@ -32,6 +32,7 @@ const SingleFeed = ({ route }) => {
                     const jsonData = parser.parse(xmlResponse, { ignoreAttributes: false })
     
                     const articlesFromResponse = articlesFinder(jsonData)
+
                     setArticles(articlesFromResponse)
                     setArticlesAreLoading(false)
                 } catch (error) {
