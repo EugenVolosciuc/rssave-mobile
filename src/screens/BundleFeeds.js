@@ -1,22 +1,103 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { FlatList, Text } from 'react-native'
+import { FlatList, Platform, View, TouchableOpacity, TouchableWithoutFeedback, StyleSheet, Modal } from 'react-native'
 import isEmpty from 'lodash/isEmpty'
 import orderBy from 'lodash/orderBy'
+import isNull from 'lodash/isNull'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import { Picker, PickerIOS } from '@react-native-picker/picker'
+import { useTheme } from '@react-navigation/native'
+import { Ionicons } from '@expo/vector-icons'
 
 import MainLayout from '../components/layouts/MainLayout'
 import { useDataService } from '../utils/DataService'
 import ArticleItem from '../components/list-items/ArticleItem'
-import { Loader, Empty } from '../components/ui'
+import { Loader, Empty, Typography } from '../components/ui'
 import findArticlePublishingDate from '../utils/functions/findArticlePublishingDate'
 
 dayjs.extend(customParseFormat)
 
 const dateFormat = 'DD.MM.YYYY HH:mm'
 
+const allFeedsOption = { value: null, label: 'All feeds' }
+
+const FeedPicker = ({ feedToShow, setFeedToShow, options }) => {
+    const [showFeedPicker, setShowFeedPicker] = useState(false)
+    const { colors } = useTheme()
+
+    const toggleFeedPicker = event => {
+        console.log("EVENT", event)
+        if (event) event.isPropagationStopped()
+        setShowFeedPicker(!showFeedPicker)
+    }
+
+    console.log("feedToShow", feedToShow)
+
+    return Platform.OS === 'ios'
+        ? (
+            <TouchableOpacity
+                activeOpacity={0.6}
+                onPress={toggleFeedPicker}
+            >
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={showFeedPicker}
+                    onRequestClose={toggleFeedPicker}
+                >
+                    <View style={styles.modalContainer}>
+                        <View style={{ ...styles.modal, backgroundColor: colors.white }}>
+                            <PickerIOS
+                                selectedValue={feedToShow.value}
+                                onValueChange={value => {
+                                    setFeedToShow({
+                                        value,
+                                        label: options.find(option => option.value === value).label
+                                    })
+                                    toggleFeedPicker()
+                                }}
+                            >
+                                {options.map(option => (
+                                    <Picker.Item
+                                        key={option.value}
+                                        value={option.value}
+                                        label={option.label}
+                                    />
+                                ))}
+                            </PickerIOS>
+                        </View>
+                    </View>
+                </Modal>
+                <View style={styles.iosPickerContainer}>
+                    <Typography>{feedToShow.label}</Typography>
+                    <Ionicons name="chevron-down" size={28} color={colors.text} />
+                </View>
+            </TouchableOpacity>
+        )
+        : (
+            <Picker
+                selectedValue={feedToShow.value}
+                onValueChange={value => {
+                    setFeedToShow({
+                        value,
+                        label: options.find(option => option.value === value).title
+                    })
+                }}
+            >
+                {options.map(option => (
+                    <Picker.Item
+                        key={option.value}
+                        value={option.value}
+                        label={option.label}
+                    />
+                ))}
+            </Picker>
+        )
+}
+
 const BundleFeeds = ({ navigation, route }) => {
-    const [feedsToShow, setFeedsToShow] = useState({ value: null, label: 'All feeds' })
+    const [feedToShow, setFeedToShow] = useState(allFeedsOption)
+    const [feedSelectionOptions, setFeedSelectionOptions] = useState([allFeedsOption])
     const [articlesAreLoading, setArticlesAreLoading] = useState(false)
     const [articles, setArticles] = useState([])
 
@@ -35,19 +116,23 @@ const BundleFeeds = ({ navigation, route }) => {
                 try {
                     setArticlesAreLoading(true)
                     const feeds = await DataService.getBundleFeeds(bundle.id)
-    
-                    const allFeedURLs = feeds.map(feed => feed.url)
-                    const fetchedArticles = await DataService.getArticlesFromFeeds(allFeedURLs)
 
-                    // Sort by date
-                    // const sortedArticles = fetchedArticles.slice().sort((a, b) => {
-                    //     // console.log("dayjs(findArticlePublishingDate(a), dateFormat).unix()", dayjs(findArticlePublishingDate(a), dateFormat).unix())
-                    //     // console.log("dayjs(findArticlePublishingDate(b), dateFormat).unix()", dayjs(findArticlePublishingDate(b), dateFormat).unix())
-                    //     return dayjs(findArticlePublishingDate(a), dateFormat).unix() - dayjs(findArticlePublishingDate(b), dateFormat).unix()
-                    // })
+                    const selectedFeedURLs = feeds.reduce(
+                        (accumulator, currentValue) => {
+                            const showAllFeeds = isNull(feedToShow.value)
+                            const showCurrentURL = feedToShow.value === currentValue.id
 
+                            if (showAllFeeds || showCurrentURL) accumulator.push(currentValue.url)
+                            return accumulator
+                        },
+                        []
+                    )
+                    const newFeedSelectionOptions = feeds.map(feed => ({ value: feed.id, label: feed.title }))
+
+                    const fetchedArticles = await DataService.getArticlesFromFeeds(selectedFeedURLs)
                     const sortedArticles = orderBy(fetchedArticles, [article => dayjs(findArticlePublishingDate(article), dateFormat).unix()], ['desc'])
 
+                    setFeedSelectionOptions([allFeedsOption, ...newFeedSelectionOptions])
                     setArticles(sortedArticles)
                     setArticlesAreLoading(false)
                 } catch (error) {
@@ -56,7 +141,7 @@ const BundleFeeds = ({ navigation, route }) => {
                 }
             })()
         }
-    }, [bundle, navigation, feedsToShow])
+    }, [bundle, navigation, feedToShow])
 
     // Remove articles from screen when changing screen
     useEffect(() => {
@@ -75,7 +160,15 @@ const BundleFeeds = ({ navigation, route }) => {
     const memoizedItem = useMemo(() => renderItem, [articles])
 
     return (
-        <MainLayout headerOptions={headerOptions}>
+        <MainLayout
+            headerOptions={headerOptions}
+            secondaryHeaderContent={
+                <FeedPicker
+                    feedToShow={feedToShow}
+                    setFeedToShow={setFeedToShow}
+                    options={feedSelectionOptions}
+                />
+            }>
             {articlesAreLoading || isEmpty(bundle)
                 ? <Loader text="Loading articles..." />
                 : <FlatList
@@ -90,3 +183,26 @@ const BundleFeeds = ({ navigation, route }) => {
 }
 
 export default BundleFeeds
+
+const styles = StyleSheet.create({
+    iosPickerContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 10
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10
+    },
+    modal: {
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        width: '90%',
+        height: 'auto'
+    },
+})

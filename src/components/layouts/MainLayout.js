@@ -4,8 +4,9 @@ import Constants from 'expo-constants'
 import { useTheme } from '@react-navigation/native'
 
 import ScreenHeader from '../navigation/ScreenHeader'
+import SecondaryHeader from '../navigation/SecondaryHeader'
 
-const MainLayout = ({ headerOptions, children, whiteBg }) => {
+const MainLayout = ({ headerOptions, children, whiteBg, secondaryHeaderContent }) => {
     const { colors, layout } = useTheme()
 
     const innerContainerStyles = {
@@ -17,6 +18,7 @@ const MainLayout = ({ headerOptions, children, whiteBg }) => {
     return (
         <SafeAreaView style={{...styles.container, backgroundColor: whiteBg ? colors.white : colors.lightGray }}>
             <ScreenHeader {...headerOptions} />
+            {secondaryHeaderContent && <SecondaryHeader>{secondaryHeaderContent}</SecondaryHeader>}
             <View style={innerContainerStyles}>
                 {children}
             </View>
