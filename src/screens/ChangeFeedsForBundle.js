@@ -52,18 +52,14 @@ const ChangeFeedsForBundle = ({ route, navigation }) => {
         } catch (error) {
             console.log("ERROR", error)
         }
-    }, [DataService])
+    }, [bundle])
 
     return (
         <MainLayout headerOptions={headerOptions}>
             <FlatList
                 data={feeds}
                 style={{ flex: 1 }}
-                ListEmptyComponent={
-                    <Empty
-                        content="No feeds added. Add a new feed by pressing the plus icon above."
-                    />
-                }
+                ListEmptyComponent={<Empty content="No feeds added." />}
                 renderItem={({ item }) => (
                     <FeedItem
                         key={item.id}

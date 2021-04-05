@@ -52,7 +52,7 @@ const ChangeBundlesForFeed = ({ route, navigation }) => {
         } catch (error) {
             console.log("ERROR", error)
         }
-    }, [DataService])
+    }, [feed])
 
     return (
         <MainLayout headerOptions={headerOptions}>
@@ -60,9 +60,7 @@ const ChangeBundlesForFeed = ({ route, navigation }) => {
                 data={bundles}
                 style={{ flex: 1 }}
                 ListEmptyComponent={
-                    <Empty
-                        content="No bundles added. Add a new feed by pressing the plus icon above."
-                    />
+                    <Empty content="No bundles added." />
                 }
                 renderItem={({ item }) => (
                     <BundleItem

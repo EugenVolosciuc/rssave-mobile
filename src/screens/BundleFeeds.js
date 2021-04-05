@@ -26,7 +26,6 @@ const FeedPicker = ({ feedToShow, setFeedToShow, options }) => {
     const { colors } = useTheme()
 
     const toggleFeedPicker = event => {
-        console.log("EVENT", event)
         if (event) event.isPropagationStopped()
         setShowFeedPicker(!showFeedPicker)
     }
@@ -157,15 +156,19 @@ const BundleFeeds = ({ navigation, route }) => {
     const renderItem = ({ item }) => <ArticleItem item={item} />
     const memoizedItem = useMemo(() => renderItem, [articles])
 
+    const shouldShowFeedPicker = feedSelectionOptions.length > 2
+
     return (
         <MainLayout
             headerOptions={headerOptions}
             secondaryHeaderContent={
-                <FeedPicker
-                    feedToShow={feedToShow}
-                    setFeedToShow={setFeedToShow}
-                    options={feedSelectionOptions}
-                />
+                shouldShowFeedPicker
+                    ? <FeedPicker
+                        feedToShow={feedToShow}
+                        setFeedToShow={setFeedToShow}
+                        options={feedSelectionOptions}
+                    />
+                    : null
             }>
             {articlesAreLoading || isEmpty(bundle)
                 ? <Loader text="Loading articles..." />
@@ -173,7 +176,15 @@ const BundleFeeds = ({ navigation, route }) => {
                     data={articles}
                     keyExtractor={(item, index) => item.title + '-' + index}
                     renderItem={memoizedItem}
-                    ListEmptyComponent={<Empty content="No articles found in this bundle, try again later." />}
+                    ListEmptyComponent={
+                        <Empty 
+                            content={
+                                feedSelectionOptions.length > 1 
+                                    ? "No articles found in this bundle, try again later." 
+                                    : "Add a feed to this bundle to see its articles."
+                            }
+                        />
+                    }
                 />
             }
         </MainLayout>

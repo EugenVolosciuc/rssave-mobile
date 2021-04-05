@@ -12,13 +12,10 @@ const Bundles = ({ navigation }) => {
 
     const handleAdd = () => navigation.navigate('Add Bundle')
 
-    const handleSearch = () => console.log("Open search")
-
     const headerOptions = {
         title: 'Bundles',
         showHamburger: true,
-        handleAdd,
-        // handleSearch
+        handleAdd
     }
 
     useEffect(() => {
