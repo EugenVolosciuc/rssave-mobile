@@ -48,6 +48,7 @@ const CreateBundleForm = () => {
             </View>
             <View style={styles.buttonContainer}>
                 <Button 
+                    width="full"
                     onPress={handleSubmit} 
                     type="primary"
                     disabled={!formData.title.length}>

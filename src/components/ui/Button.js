@@ -3,11 +3,12 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { useTheme } from '@react-navigation/native'
 import Typography from './Typography'
 
-const Button = ({ children, disabled, onPress, type = "secondary" }) => {
+const Button = ({ children, disabled, onPress, type = "secondary", width = 'content' }) => {
     const { colors } = useTheme()
 
     const buttonStyles = {
         ...styles.button,
+        ...(width === 'full' ? { alignSelf: 'stretch' } : { alignSelf: 'center' }),
         ...(type === 'primary' && {
             backgroundColor: colors.primary,
             borderColor: 'transparent',

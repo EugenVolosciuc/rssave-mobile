@@ -81,7 +81,7 @@ const CreateFeedForm = () => {
             </View>
 
             <View style={styles.buttonContainer}>
-                <Button onPress={handleSubmit} type="primary" disabled={saveBtnIsDisabled}>Save</Button>
+                <Button width="full" onPress={handleSubmit} type="primary" disabled={saveBtnIsDisabled}>Save</Button>
             </View>
         </View>
     )

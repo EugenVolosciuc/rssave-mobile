@@ -31,8 +31,6 @@ const FeedPicker = ({ feedToShow, setFeedToShow, options }) => {
         setShowFeedPicker(!showFeedPicker)
     }
 
-    console.log("feedToShow", feedToShow)
-
     return Platform.OS === 'ios'
         ? (
             <TouchableOpacity

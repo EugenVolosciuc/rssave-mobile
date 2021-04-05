@@ -18,6 +18,7 @@ import {
     ChangeFeedsForBundle,
     ChangeBundlesForFeed
 } from '../../screens'
+import WelcomeModal from '../modals/WelcomeModal'
 
 const Drawer = createDrawerNavigator()
 
@@ -31,14 +32,14 @@ const Navigator = () => {
                 style={Platform.OS === 'android' ? "light" : "auto"}
             />
             {/* NOTE: If screen shouldn't appear in drawer, add it to the end of the list */}
-            <Drawer.Navigator initialRouteName="Bundles" drawerContent={props => <CustomDrawer {...props} />}>
-                <Drawer.Screen
-                    name="Bundles"
-                    component={Bundles}
-                />
+            <Drawer.Navigator initialRouteName="All feeds" drawerContent={props => <CustomDrawer {...props} />}>
                 <Drawer.Screen
                     name="All feeds"
                     component={AllFeeds}
+                />
+                <Drawer.Screen
+                    name="Bundles"
+                    component={Bundles}
                 />
                 <Drawer.Screen
                     name="Settings"
@@ -73,6 +74,7 @@ const Navigator = () => {
                     component={ChangeFeedsForBundle}
                 />
             </Drawer.Navigator>
+            <WelcomeModal />
         </NavigationContainer>
     )
 }

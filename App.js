@@ -19,11 +19,13 @@ export default function App() {
 
 	if (service === 'local') {
 		return (
-			<DataProvider dataLoaded={initialDataLoaded} setDataLoaded={setInitialDataLoaded}>
+			<DataProvider
+				dataLoaded={initialDataLoaded}
+				setDataLoaded={setInitialDataLoaded}>
 				<Navigator />
 			</DataProvider>
 		)
-	} else {
-		return <Navigator />
 	}
+
+	return <Navigator />
 }
