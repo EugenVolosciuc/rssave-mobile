@@ -57,7 +57,7 @@ const WelcomeScreenItem = ({ item, index }) => {
 }
 
 const WelcomeModal = ({ onRequestClose }) => {
-	const [showWelcomeModal, setShowWelcomeModal] = useState(true)
+	const [showWelcomeModal, setShowWelcomeModal] = useState(false)
     const [currentDotIndex, setCurrentDotIndex] = useState(0)
 
     const carouselRef = useRef()
