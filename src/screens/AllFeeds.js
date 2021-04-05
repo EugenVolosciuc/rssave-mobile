@@ -12,13 +12,10 @@ const AllFeeds = ({ navigation }) => {
 
     const handleAdd = () => navigation.navigate('Add Feed')
 
-    const handleSearch = () => console.log("Open search")
-
     const headerOptions = {
         title: 'All Feeds',
         showHamburger: true,
-        handleAdd,
-        // handleSearch
+        handleAdd
     }
 
     useEffect(() => {

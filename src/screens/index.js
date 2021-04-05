@@ -8,6 +8,7 @@ import AddBundle from './AddBundle'
 import SingleFeed from './SingleFeed'
 import ChangeBundlesForFeed from './ChangeBundlesForFeed'
 import ChangeFeedsForBundle from './ChangeFeedsForBundle'
+import Favourites from './Favourites'
 
 export {
     AllFeeds,
@@ -19,5 +20,6 @@ export {
     AddBundle,
     SingleFeed,
     ChangeBundlesForFeed,
-    ChangeFeedsForBundle
+    ChangeFeedsForBundle,
+    Favourites
 }

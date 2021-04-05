@@ -16,7 +16,8 @@ import {
     AddFeed,
     SingleFeed,
     ChangeFeedsForBundle,
-    ChangeBundlesForFeed
+    ChangeBundlesForFeed,
+    Favourites
 } from '../../screens'
 import WelcomeModal from '../modals/WelcomeModal'
 
@@ -40,6 +41,10 @@ const Navigator = () => {
                 <Drawer.Screen
                     name="Bundles"
                     component={Bundles}
+                />
+                <Drawer.Screen
+                    name="Favourites"
+                    component={Favourites}
                 />
                 <Drawer.Screen
                     name="Settings"

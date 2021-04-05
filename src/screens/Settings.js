@@ -38,7 +38,7 @@ const Settings = () => {
                 onPress: async () => {
                     try {
                         await DataService.removeAllData()
-                        navigation.navigate('Bundles')
+                        navigation.navigate('All feeds')
                     } catch (error) {
                         console.log("ERROR", error)
                     }

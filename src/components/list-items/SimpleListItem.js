@@ -19,7 +19,7 @@ const SimpleListItem = ({ children, onPress, withPadding, longPressActions = [],
     // ex. [{ { title: 'Add to bundle', handler }, { title: 'Modify feed', handler }, { title: 'Remove feed', handler }]
     return (
         <TouchableOpacity
-            activeOpacity={0.6}
+            activeOpacity={isEmpty(longPressActions) ? 1 : 0.6}
             delayLongPress={250}
             onPress={onPress}
             onLongPress={() => isEmpty(longPressActions)

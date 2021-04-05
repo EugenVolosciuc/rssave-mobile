@@ -206,15 +206,26 @@ class LocalDataService {
 
     // FAVOURITE FUNCS
     async getFavourites() {
-        return
+        return this.localData.favourites
     }
 
     async addFavourite(favouriteData) {
-        return
+        this.setLocalData({
+            ...this.localData,
+            favourites: [
+                ...this.localData.favourites,
+                favouriteData
+            ]
+        })
     }
 
-    async removeFavourite(favouriteId) {
-        return
+    async removeFavourite(favouriteTitle) {
+        const filteredLocalData = {
+            ...this.localData,
+            favourites: this.localData.favourites.filter(item => item.title !== favouriteTitle)
+        }
+
+        this.setLocalData(filteredLocalData)
     }
 
     // General funcs

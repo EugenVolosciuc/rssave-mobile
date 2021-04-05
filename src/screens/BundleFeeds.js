@@ -97,6 +97,7 @@ const BundleFeeds = ({ navigation, route }) => {
     const [feedSelectionOptions, setFeedSelectionOptions] = useState([allFeedsOption])
     const [articlesAreLoading, setArticlesAreLoading] = useState(false)
     const [articles, setArticles] = useState([])
+    const [favourites, setFavourites] = useState([])
 
     const DataService = useDataService()
 
@@ -153,7 +154,24 @@ const BundleFeeds = ({ navigation, route }) => {
         return unsubscribe
     }, [navigation])
 
-    const renderItem = ({ item }) => <ArticleItem item={item} />
+    // Get favourites
+    useEffect(() => {
+        const unsubscribe = navigation.addListener(
+            'focus',
+            async () => {
+                try {
+                    const fetchedFavourites = await DataService.getFavourites()
+                    setFavourites(fetchedFavourites)
+                } catch (error) {
+                    console.log("ERROR", error)
+                }
+            }
+        )
+
+        return unsubscribe
+    }, [navigation, DataService])
+
+    const renderItem = ({ item }) => <ArticleItem item={item} isFavourite={favourites.some(favourite => favourite.title === item.title)} />
     const memoizedItem = useMemo(() => renderItem, [articles])
 
     const shouldShowFeedPicker = feedSelectionOptions.length > 2
@@ -177,10 +195,10 @@ const BundleFeeds = ({ navigation, route }) => {
                     keyExtractor={(item, index) => item.title + '-' + index}
                     renderItem={memoizedItem}
                     ListEmptyComponent={
-                        <Empty 
+                        <Empty
                             content={
-                                feedSelectionOptions.length > 1 
-                                    ? "No articles found in this bundle, try again later." 
+                                feedSelectionOptions.length > 1
+                                    ? "No articles found in this bundle, try again later."
                                     : "Add a feed to this bundle to see its articles."
                             }
                         />

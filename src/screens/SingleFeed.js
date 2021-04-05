@@ -2,18 +2,20 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { FlatList } from 'react-native'
 import axios from 'axios'
 import parser from 'fast-xml-parser'
-import { useNavigation } from '@react-navigation/native'
 import isEmpty from 'lodash/isEmpty'
 
 import MainLayout from '../components/layouts/MainLayout'
 import articlesFinder from '../utils/functions/articlesFinder'
 import ArticleItem from '../components/list-items/ArticleItem'
 import { Loader, Empty } from '../components/ui'
+import { useDataService } from '../utils/DataService'
 
-const SingleFeed = ({ route }) => {
+const SingleFeed = ({ route, navigation }) => {
     const [articles, setArticles] = useState([])
     const [articlesAreLoading, setArticlesAreLoading] = useState(false)
-    const navigation = useNavigation()
+    const [favourites, setFavourites] = useState([])
+
+    const DataService = useDataService()
 
     const { feed } = route.params
 
@@ -56,8 +58,25 @@ const SingleFeed = ({ route }) => {
         return unsubscribe
     }, [navigation])
 
-    const renderItem = ({item}) => <ArticleItem item={item} />
-    const memoizedItem = useMemo(() => renderItem, [articles])
+    // Get favourites
+    useEffect(() => {
+        const unsubscribe = navigation.addListener(
+            'focus',
+            async () => {
+                try {
+                    const fetchedFavourites = await DataService.getFavourites()
+                    setFavourites(fetchedFavourites)
+                } catch (error) {
+                    console.log("ERROR", error)
+                }
+            }
+        )
+
+        return unsubscribe
+    }, [navigation, DataService])
+
+    const renderItem = ({item}) => <ArticleItem item={item} isFavourite={favourites.some(favourite => favourite.title === item.title)} />
+    const memoizedItem = useMemo(() => renderItem, [articles, favourites])
 
     return (
         <MainLayout headerOptions={headerOptions}>
