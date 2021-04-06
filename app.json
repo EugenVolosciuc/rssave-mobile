@@ -28,7 +28,8 @@
       },
       "enableDangerousExperimentalLeanBuilds": true,
       "package": "com.eugenvolosciuc.rssave",
-      "versionCode": 1
+      "versionCode": 1,
+      "permissions": []
     },
     "primaryColor": "#607A9F"
   }

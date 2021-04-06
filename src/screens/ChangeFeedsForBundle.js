@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { FlatList } from 'react-native'
+import isEmpty from 'lodash/isEmpty'
 
 import MainLayout from '../components/layouts/MainLayout'
 import FeedItem from '../components/list-items/FeedItem'
@@ -39,7 +40,7 @@ const ChangeFeedsForBundle = ({ route, navigation }) => {
     const headerOptions = {
         title: `Change ${bundle.title} feeds`,
         showHamburger: false,
-        handleSave
+        ...(!isEmpty(feeds) && { handleSave })
     }
 
     useEffect(() => {

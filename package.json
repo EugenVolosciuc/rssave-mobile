@@ -35,7 +35,8 @@
     "react-native-snap-carousel": "^3.9.1",
     "react-native-web": "~0.13.12",
     "uuid": "^8.3.2",
-    "validator": "^13.5.2"
+    "validator": "^13.5.2",
+    "expo-splash-screen": "~0.8.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

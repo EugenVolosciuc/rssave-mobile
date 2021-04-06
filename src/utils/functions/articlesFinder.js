@@ -6,7 +6,8 @@ import get from 'lodash/get'
 
 const possiblePaths = [
     'feed.entry',
-    'rss.channel.item'
+    'rss.channel.item',
+    '[rdf:RDF].item'
 ]
 
 export default function articlesFinder(jsonData) {
