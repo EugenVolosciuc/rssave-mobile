@@ -48,7 +48,7 @@ const WelcomeScreenItem = ({ item, index }) => {
     return (
         <View style={styles.screenItem} key={index}>
             <View style={styles.imageContainer}>
-                <Image style={styles.image} source={item.img} onError={({ nativeEvent: { error }}) => console.log("ERROR LOADING IMAGE", error)} />
+                <Image style={styles.image} source={item.img} />
             </View>
             {item.title}
             {item.content}

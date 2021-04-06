@@ -1,7 +1,6 @@
 import React from 'react'
-import { View, SectionList, StyleSheet, Alert } from 'react-native'
+import { SectionList, StyleSheet, Alert } from 'react-native'
 import { useTheme } from '@react-navigation/native'
-import { useNavigation } from '@react-navigation/native'
 
 import MainLayout from '../components/layouts/MainLayout'
 import { Typography } from '../components/ui'
@@ -19,9 +18,8 @@ const SettingHeader = ({ title }) => {
     </Typography>
 }
 
-const Settings = () => {
+const Settings = ({ navigation }) => {
     const DataService = useDataService()
-    const navigation = useNavigation()
 
     const headerOptions = {
         title: 'Settings',
@@ -56,12 +54,22 @@ const Settings = () => {
                     onPress: createDataRemovalAlert // show confirmation popup
                 }
             ]
+        },
+        {
+            sectionTitle: 'Application',
+            data: [
+                {
+                    title: 'About',
+                    onPress: () => navigation.navigate('About')
+                }
+            ]
         }
     ]
 
     return (
         <MainLayout headerOptions={headerOptions} whiteBg>
             <SectionList
+                style={{ marginTop: -10 }}
                 sections={settingsList}
                 keyExtractor={(item, index) => item.title + '-' + index}
                 renderItem={({ item }) => <SettingItem item={item} />}
@@ -75,6 +83,7 @@ export default Settings
 
 const styles = StyleSheet.create({
     settingHeader: {
-        textTransform: 'uppercase'
+        textTransform: 'uppercase',
+        marginTop: 10
     }
 })

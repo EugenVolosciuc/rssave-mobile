@@ -7,7 +7,8 @@ const hiddenDrawerItems = [
     'Add Bundle',
     'Single Feed',
     'Change Bundles for Feed',
-    'Change Feeds for Bundle'
+    'Change Feeds for Bundle',
+    'About'
 ]
 
 // gets modified state after filtering through drawer items that shouldn't appear in the drawer
