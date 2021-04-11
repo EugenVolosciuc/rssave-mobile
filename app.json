@@ -26,7 +26,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "enableDangerousExperimentalLeanBuilds": true,
+      "enableDangerousExperimentalLeanBuilds": false,
       "package": "com.eugenvolosciuc.rssave",
       "versionCode": 1,
       "permissions": []
